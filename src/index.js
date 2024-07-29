@@ -7,28 +7,29 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Homepage from "./routes/homepage/Homepage";
 import Dashboard from "./routes/dashboard/Dashboard";
 import { ChatPage } from "./routes/chatpage/ChatPage";
+import RootLayout from "./layouts/rootLayout/RootLayout";
+import DashBoardLayout from "./layouts/rootLayout/dashboardlayout/DashBoardLayout";
+import { SignIn } from "@clerk/clerk-react";
+import SignInPage from "./routes/signinpage/SignInPage";
+import SignUpPage from "./routes/signuppage/SignUpPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Homepage />,
-  },
-  {
-    path: "/dashboard",
-    element: <Dashboard />,
-  },
-  {
-    path: "/dashboard",
-
+    element: <RootLayout />,
     children: [
-      { path: "/dashboard", element: <Dashboard /> },
-      { path: "/dashboard/chats/:id", element: <ChatPage /> },
+      { path: "/", element: <Homepage /> },
+      { path: "/sign-in/*", element: <SignInPage /> },
+      { path: "/sign-up/*", element: <SignUpPage /> },
+      {
+        element: <DashBoardLayout />,
+        children: [
+          { path: "/dashboard", element: <Dashboard /> },
+          { path: "/dashboard/chats", element: <ChatPage /> },
+        ],
+      },
     ],
-  },
-  {
-    path: "/dashboard",
-    element: <Dashboard />,
   },
 ]);
 root.render(
